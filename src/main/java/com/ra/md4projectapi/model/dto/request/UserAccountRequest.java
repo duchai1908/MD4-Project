@@ -9,13 +9,12 @@ import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
-import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class UserRequest {
+public class UserAccountRequest {
     @NotBlank(message = "User name must not be null")
     private String username;
     @NotBlank(message = "Full name must not be null")
@@ -28,8 +27,5 @@ public class UserRequest {
     private String address;
     @NotNull(message = "DOB must not be null")
     private Date dob;
-    private Boolean status;
     private MultipartFile image;
-    @NotNull(message = "Role must not be null")
-    private Set<String> roles;
 }

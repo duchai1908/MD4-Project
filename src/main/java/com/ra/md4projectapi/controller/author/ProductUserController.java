@@ -1,4 +1,4 @@
-package com.ra.md4projectapi.controller.user;
+package com.ra.md4projectapi.controller.author;
 
 
 import com.ra.md4projectapi.model.dto.response.ResponseDtoSuccess;

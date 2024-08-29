@@ -78,7 +78,7 @@ public class ProductServiceImpl implements IProductService {
         if(!Objects.equals(productRequest.getName(), product.getName()) && existsByProductName(productRequest.getName())){
             throw new DataExistException("Product name is exists","name");
         }
-        if(productRequest.getImage().getSize() >0){
+        if(productRequest.getImage()!=null && productRequest.getImage().getSize() >0){
              multipartFile = uploadService.uploadFileToServer(productRequest.getImage());
         }else{
             multipartFile = product.getImage();

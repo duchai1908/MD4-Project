@@ -1,6 +1,7 @@
 package com.ra.md4projectapi.model.service.impl;
 
 import com.ra.md4projectapi.model.dto.request.ChangePasswordRequest;
+import com.ra.md4projectapi.model.dto.request.UserAccountRequest;
 import com.ra.md4projectapi.model.dto.request.UserRequest;
 import com.ra.md4projectapi.model.entity.Role;
 import com.ra.md4projectapi.model.entity.User;
@@ -61,6 +62,11 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public User getUserByUserLogin() {
+        return getUserById(getCurrentUserLogin().getUsers().getId());
+    }
+
+    @Override
     public User updateUser(Long id, UserRequest userRequest) {
         Set<Role> roles = new HashSet<>();
         userRequest.getRoles().forEach(item -> roles.add(roleRepository.findByRoleName(roleService.findRoleNameByString(item)).orElseThrow(()-> new NoSuchElementException("RoleName not found"))));
@@ -73,8 +79,24 @@ public class UserServiceImpl implements IUserService {
             user.setImage(uploadService.uploadFileToServer(userRequest.getImage()));
         }
         user.setDob(userRequest.getDob());
+        user.setStatus(userRequest.getStatus());
         user.setUpdatedAt(new Date());
         user.setRoles(roles);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User updateUserAccount(UserAccountRequest userAccountRequest) {
+        User user = getUserById(getCurrentUserLogin().getUsers().getId());
+        user.setFullName(userAccountRequest.getFullName());
+        user.setEmail(userAccountRequest.getEmail());
+        user.setAddress(userAccountRequest.getAddress());
+        user.setPhone(userAccountRequest.getPhone());
+        if(userAccountRequest.getImage().getSize() >0){
+            user.setImage(uploadService.uploadFileToServer(userAccountRequest.getImage()));
+        }
+        user.setDob(userAccountRequest.getDob());
+        user.setUpdatedAt(new Date());
         return userRepository.save(user);
     }
 
