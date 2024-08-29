@@ -12,9 +12,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CartItemRequest {
-    private Long userId;
+    private Long user;
     @NotNull(message = "Product Id Is Empty!")
-    private Long productId;
+    private Long product;
     @Min(value = 1, message = "Quantity must equal or greater than 1")
     private Integer quantity;
 }
