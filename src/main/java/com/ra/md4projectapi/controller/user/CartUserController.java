@@ -1,6 +1,7 @@
 package com.ra.md4projectapi.controller.user;
 
 import com.ra.md4projectapi.model.dto.request.CartItemRequest;
+import com.ra.md4projectapi.model.dto.request.OrdersRequest;
 import com.ra.md4projectapi.model.dto.response.ResponseDtoSuccess;
 import com.ra.md4projectapi.model.service.ICartService;
 import com.ra.md4projectapi.security.principle.UserDetailCustom;
@@ -49,9 +50,9 @@ public class CartUserController {
     }
 
     //Add to Order
-    @PostMapping("addToOrder")
-    public ResponseEntity<?> addToOrder(@AuthenticationPrincipal UserDetailCustom userDetailCustom){
-        return new ResponseEntity<>(new ResponseDtoSuccess<>(cartService.addOrders(userDetailCustom.getUsers().getId()),HttpStatus.CREATED),HttpStatus.CREATED);
+    @PostMapping("/addToOrder")
+    public ResponseEntity<?> addToOrder(@RequestBody OrdersRequest ordersRequest, @AuthenticationPrincipal UserDetailCustom userDetailCustom){
+        return new ResponseEntity<>(new ResponseDtoSuccess<>(cartService.addOrders(ordersRequest,userDetailCustom.getUsers().getId()),HttpStatus.CREATED),HttpStatus.CREATED);
     }
 
 }

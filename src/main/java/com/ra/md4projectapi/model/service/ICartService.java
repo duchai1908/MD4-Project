@@ -1,6 +1,7 @@
 package com.ra.md4projectapi.model.service;
 
 import com.ra.md4projectapi.model.dto.request.CartItemRequest;
+import com.ra.md4projectapi.model.dto.request.OrdersRequest;
 import com.ra.md4projectapi.model.entity.CartItem;
 import com.ra.md4projectapi.model.entity.Orders;
 
@@ -12,5 +13,5 @@ public interface ICartService {
     CartItem changeQuantity(Long cartItemId, Integer quantity);
     void deleteCartItem(Long cartItemId);
     void deleteAllCartItems(Long userId);
-    Orders addOrders(Long userId);
+    Orders addOrders(OrdersRequest ordersRequest,Long userId);
 }

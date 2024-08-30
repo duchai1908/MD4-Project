@@ -1,6 +1,7 @@
 package com.ra.md4projectapi.controller;
 
 import com.ra.md4projectapi.constants.EHttpStatus;
+import com.ra.md4projectapi.exception.DataExistException;
 import com.ra.md4projectapi.model.dto.request.FormLogin;
 import com.ra.md4projectapi.model.dto.request.FormRegister;
 import com.ra.md4projectapi.model.dto.response.ResponseWrapper;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final IAuthService authService;
     @PostMapping("/sign-up")
-    public ResponseEntity<?> signUp(@RequestBody FormRegister formRegister){
+    public ResponseEntity<?> signUp(@RequestBody FormRegister formRegister) throws DataExistException {
         authService.register(formRegister);
         return new ResponseEntity<>(ResponseWrapper.builder()
                 .ehttpStatus(EHttpStatus.SUCCESS)

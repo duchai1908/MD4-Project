@@ -1,6 +1,7 @@
 package com.ra.md4projectapi.model.service.impl;
 
 import com.ra.md4projectapi.constants.RoleName;
+import com.ra.md4projectapi.exception.DataExistException;
 import com.ra.md4projectapi.model.dto.request.FormLogin;
 import com.ra.md4projectapi.model.dto.request.FormRegister;
 import com.ra.md4projectapi.model.dto.response.JwtResponse;
@@ -36,7 +37,10 @@ public class AuthServiceImpl implements IAuthService {
     private final JwtProvider jwtProvider;
 
     @Override
-    public void register(FormRegister formRegister) {
+    public void register(FormRegister formRegister) throws DataExistException {
+        if(userRepository.existsByUsername(formRegister.getUsername())) {
+            throw new DataExistException("User name is exists","username");
+        }
         Set<Role> roles = new HashSet<>();
         roles.add(roleService.findByRoleName(RoleName.ROLE_USER));
         String img = "https://inkythuatso.com/uploads/thumbnails/800/2023/03/6-anh-dai-dien-trang-inkythuatso-03-15-26-36.jpg";
@@ -63,6 +67,9 @@ public class AuthServiceImpl implements IAuthService {
             throw new BadCredentialsException("Invalid username or password");
         }
         UserDetailCustom userDetail = (UserDetailCustom) authentication.getPrincipal();
+        if(!userDetail.getUsers().getStatus()){
+            throw new BadCredentialsException("Your account has been locked");
+        }
         String accessToken = jwtProvider.generateToken(userDetail);
         return JwtResponse.builder()
                 .accessToken(accessToken)
